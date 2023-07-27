@@ -1,12 +1,12 @@
 {
-  "pluginAlias": "ExampleHomebridgePlugin",
+  "pluginAlias": "HomebridgeHTTPLeakSensor",
   "pluginType": "platform",
   "singular": true,
   "schema": {
     "type": "object",
     "properties": {
       "name": {
-        "title": "Name",
+        "title": "Homebridge HTTP Leak Sensor",
         "type": "string",
         "required": true,
         "default": "Example Dynamic Platform"
