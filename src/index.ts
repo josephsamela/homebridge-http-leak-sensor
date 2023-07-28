@@ -12,12 +12,12 @@ class LeakSensorAccessory {
   log: any;
   config: any;
   api: any;
-  url: any;
-  name: any;
-  pollInterval: any;
-  manufacturer: any;
-  model: any;
-  serialNumber: any;
+  url: string;
+  name: string;
+  pollInterval: number;
+  manufacturer: string;
+  model: string;
+  serialNumber: string;
   service: any;
 
   constructor(log, config, api) {
@@ -46,7 +46,7 @@ class LeakSensorAccessory {
       .on('get', this.handleLeakSensorGetState.bind(this))
 
     setInterval(function (this) {
-      this.handleLeakSensorSetState(function () {})
+      this.handleLeakSensorSetState()
     }.bind(this), this.pollInterval * 1000)
 
     return [informationService, this.service]
@@ -55,28 +55,32 @@ class LeakSensorAccessory {
   async handleLeakSensorSetState() {
     // This function runs on a regular interval to update the state of the sensor.
     // The interval is configured by the "pollInterval" config item.
-    
     const response = await fetch(this.url);
     const data = await response.json();
     const currentState = data['currentState']
 
     if (currentState == "WET") {
-      var currentValue = Characteristic.LeakDetected.LEAK_DETECTED;
+      this.service.getCharacteristic(Characteristic.LeakDetected)
+      .updateValue(Characteristic.LeakDetected.LEAK_DETECTED)
+
+      this.log.console.debug('Sensor state: LEAK_DETECTED');
+
     }
     else if (currentState == "DRY") {
-      var currentValue = Characteristic.LeakDetected.LEAK_NOT_DETECTED;
+      this.service.getCharacteristic(Characteristic.LeakDetected)
+        .updateValue(Characteristic.LeakDetected.LEAK_NOT_DETECTED)
+
+      this.log.console.debug('Sensor state: LEAK_NOT_DETECTED');
     }
-
-    this.service.getCharacteristic(Characteristic.LeakDetected).updateValue(currentValue)
-    this.log.debug('Leak Sensor State: ' + currentValue);
-
-    return currentValue
+    else {
+      this.log.console.warn('Sensor state: UNKNOWN "'+currentState+'"');
+    }
   }
 
   async handleLeakSensorGetState(callback) {
     // This function responds to Homekit requests for the current state of the Leak Sensor.    
-    const currentValue = await this.handleLeakSensorSetState()
-    callback(null, currentValue)
+    let currentState = this.service.getCharacteristic(Characteristic.LeakDetected).value
+    callback(null, currentState)
   }
 
 }
