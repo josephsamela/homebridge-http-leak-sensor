@@ -1,7 +1,7 @@
 {
   "displayName": "Homebridge HTTP Leak Sensor",
   "name": "homebridge-http-leak-sensor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Homebridge plugin for a simple web-based leak sensor.",
   "license": "Apache-2.0",
   "repository": {
@@ -26,7 +26,7 @@
     "homebridge-plugin"
   ],
   "dependencies": {
-	  "node-fetch": "2.6.7"
+    "node-fetch": "2.6.7"
   },
   "devDependencies": {
     "@types/node": "^18.16.20",
