@@ -14,7 +14,11 @@
 
 This [homebridge](https://github.com/homebridge/homebridge) plugin exposes a web-based Leak Sensor to Apple's [HomeKit](http://www.apple.com/ios/home/). Using simple HTTP requests, the plugin allows you to monitor the status of leak sensors.
 
-To build your own Leak Sensor see sample code in the [/examples](/examples) folder. 
+Leak sensors enabled with this plugin will appear in Homekit as sensors. You will be able to check whether or not they detect a leak. When a leak is detected Homekit will send you CRITICAL alert notifications. 
+
+![](images/homekit.jpg)
+
+![](images/ios-critical-alert.jpg)
 
 ## Installation
 
@@ -66,3 +70,9 @@ Your Leak Sensor API should be able to return JSON information when it receives 
 | ----- | --- |
 | `WET` | Device _is_ detecting a leak. |
 | `DRY` | Device _is not_ detecting a leak. |
+
+## Sensors
+
+This plugin has a very is intended to communicate with very simple DIY leak sensors. To build your own Leak Sensor see sample code in the [/examples](/examples) folder.
+
+![](/images/diy-leak-sensor.jpg)
