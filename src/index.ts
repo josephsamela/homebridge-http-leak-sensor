@@ -10,8 +10,8 @@ module.exports = (homebridge) => {
 class LeakSensorAccessory {
 
   log: any;
-  config: any;
-  api: any;
+  config: object;
+  api: object;
   url: string;
   name: string;
   pollInterval: number;
