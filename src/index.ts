@@ -1,9 +1,9 @@
-let Service, Characteristic
+let Service, Characteristic;
 import fetch from 'node-fetch';
 
 module.exports = (homebridge) => {
-  Service = homebridge.hap.Service
-  Characteristic = homebridge.hap.Characteristic
+  Service = homebridge.hap.Service;
+  Characteristic = homebridge.hap.Characteristic;
   homebridge.registerAccessory('homebridge-http-leak-sensor', 'HomebridgeHTTPLeakSensor', LeakSensorAccessory);
 };
 
@@ -21,35 +21,35 @@ class LeakSensorAccessory {
   service: any;
 
   constructor(log, config, api) {
-      this.log = log
-      this.config = config
-      this.api = api
+    this.log = log;
+    this.config = config;
+    this.api = api;
 
-      this.url = config.url                   || 'http://localhost/status'
-      this.name = config.name                 || 'Leak Sensor'
-      this.pollInterval = config.pollInterval || 60
+    this.url = config.url || 'http://localhost/status';
+    this.name = config.name || 'Leak Sensor';
+    this.pollInterval = config.pollInterval || 60;
 
-      this.manufacturer = config.manufacturer || 'Homebridge'
-      this.model = config.model               || 'Leak Sensor'
-      this.serialNumber = config.serialNumber || '000000'
+    this.manufacturer = config.manufacturer || 'Homebridge';
+    this.model = config.model || 'Leak Sensor';
+    this.serialNumber = config.serialNumber || '000000';
 
-      this.service = new Service.LeakSensor(this.name)
+    this.service = new Service.LeakSensor(this.name);
   }
 
   getServices() {
     const informationService = new Service.AccessoryInformation()
-        .setCharacteristic(Characteristic.Manufacturer, this.manufacturer)
-        .setCharacteristic(Characteristic.Model, this.model)
-        .setCharacteristic(Characteristic.SerialNumber, this.serialNumber)
+      .setCharacteristic(Characteristic.Manufacturer, this.manufacturer)
+      .setCharacteristic(Characteristic.Model, this.model)
+      .setCharacteristic(Characteristic.SerialNumber, this.serialNumber);
 
     this.service.getCharacteristic(Characteristic.LeakDetected)
-      .on('get', this.handleLeakSensorGetState.bind(this))
+      .on('get', this.handleLeakSensorGetState.bind(this));
 
     setInterval(function (this) {
-      this.handleLeakSensorSetState()
-    }.bind(this), this.pollInterval * 1000)
+      this.handleLeakSensorSetState();
+    }.bind(this), this.pollInterval * 1000);
 
-    return [informationService, this.service]
+    return [informationService, this.service];
   }
 
   async handleLeakSensorSetState() {
@@ -57,30 +57,25 @@ class LeakSensorAccessory {
     // The interval is configured by the "pollInterval" config item.
     const response = await fetch(this.url);
     const data = await response.json();
-    const currentState = data['currentState']
+    const currentState = data['currentState'];
 
-    if (currentState == "WET") {
+    if (currentState === 'WET') {
       this.service.getCharacteristic(Characteristic.LeakDetected)
-      .updateValue(Characteristic.LeakDetected.LEAK_DETECTED)
-
+        .updateValue(Characteristic.LeakDetected.LEAK_DETECTED);
       this.log.console.debug('Sensor state: LEAK_DETECTED');
-
-    }
-    else if (currentState == "DRY") {
+    } else if (currentState === 'DRY') {
       this.service.getCharacteristic(Characteristic.LeakDetected)
-        .updateValue(Characteristic.LeakDetected.LEAK_NOT_DETECTED)
-
+        .updateValue(Characteristic.LeakDetected.LEAK_NOT_DETECTED);
       this.log.console.debug('Sensor state: LEAK_NOT_DETECTED');
-    }
-    else {
+    } else {
       this.log.console.warn('Sensor state: UNKNOWN "'+currentState+'"');
     }
   }
 
   async handleLeakSensorGetState(callback) {
-    // This function responds to Homekit requests for the current state of the Leak Sensor.    
-    let currentState = this.service.getCharacteristic(Characteristic.LeakDetected).value
-    callback(null, currentState)
+    // This function responds to Homekit requests for the current state of the Leak Sensor.
+    const currentState = this.service.getCharacteristic(Characteristic.LeakDetected).value;
+    callback(null, currentState);
   }
 
 }
