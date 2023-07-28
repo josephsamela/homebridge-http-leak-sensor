@@ -62,13 +62,13 @@ class LeakSensorAccessory {
     if (currentState === 'WET') {
       this.service.getCharacteristic(Characteristic.LeakDetected)
         .updateValue(Characteristic.LeakDetected.LEAK_DETECTED);
-      this.log.console.debug('Sensor state: LEAK_DETECTED');
+      this.log.debug('Sensor state: LEAK_DETECTED');
     } else if (currentState === 'DRY') {
       this.service.getCharacteristic(Characteristic.LeakDetected)
         .updateValue(Characteristic.LeakDetected.LEAK_NOT_DETECTED);
-      this.log.console.debug('Sensor state: LEAK_NOT_DETECTED');
+      this.log.debug('Sensor state: LEAK_NOT_DETECTED');
     } else {
-      this.log.console.warn('Sensor state: UNKNOWN "'+currentState+'"');
+      this.log.warn('Sensor state: UNKNOWN "'+currentState+'"');
     }
   }
 
