@@ -1,4 +1,5 @@
 let Service, Characteristic
+import fetch from 'node-fetch';
 
 module.exports = (homebridge) => {
   Service = homebridge.hap.Service
@@ -14,6 +15,9 @@ class LeakSensorAccessory {
   url: any;
   name: any;
   pollInterval: any;
+  manufacturer: any;
+  model: any;
+  serialNumber: any;
   service: any;
 
   constructor(log, config, api) {
@@ -21,40 +25,57 @@ class LeakSensorAccessory {
       this.config = config
       this.api = api
 
-      this.url = config.url
-      this.name = config.name || 'Leak Sensor'
-      this.pollInterval = config.pollInterval || 10
+      this.url = config.url                   || 'http://localhost/status'
+      this.name = config.name                 || 'Leak Sensor'
+      this.pollInterval = config.pollInterval || 60
+
+      this.manufacturer = config.manufacturer || 'Homebridge'
+      this.model = config.model               || 'Leak Sensor'
+      this.serialNumber = config.serialNumber || '000000'
 
       this.service = new Service.LeakSensor(this.name)
   }
 
   getServices() {
-    this.log.debug('GetServices');
-
     const informationService = new Service.AccessoryInformation()
-        .setCharacteristic(Characteristic.Manufacturer, 'oznu')
-        .setCharacteristic(Characteristic.Model, 'SwitchExample')
-        .setCharacteristic(Characteristic.SerialNumber, 'oznu-switch-example')
+        .setCharacteristic(Characteristic.Manufacturer, this.manufacturer)
+        .setCharacteristic(Characteristic.Model, this.model)
+        .setCharacteristic(Characteristic.SerialNumber, this.serialNumber)
 
     this.service.getCharacteristic(Characteristic.LeakDetected)
-      .on('get', this.handleLeakDetectedGet.bind(this))
+      .on('get', this.handleLeakSensorGetState.bind(this))
 
     setInterval(function (this) {
-      this.handleLeakDetectedGet(function () {})
+      this.handleLeakSensorSetState(function () {})
     }.bind(this), this.pollInterval * 1000)
 
     return [informationService, this.service]
   }
 
-  handleLeakDetectedGet(callback) {
-    if (Math.random() > 0.5) {
+  async handleLeakSensorSetState() {
+    // This function runs on a regular interval to update the state of the sensor.
+    // The interval is configured by the "pollInterval" config item.
+    
+    const response = await fetch(this.url);
+    const data = await response.json();
+    const currentState = data['currentState']
+
+    if (currentState == "WET") {
       var currentValue = Characteristic.LeakDetected.LEAK_DETECTED;
-    } else {
+    }
+    else if (currentState == "DRY") {
       var currentValue = Characteristic.LeakDetected.LEAK_NOT_DETECTED;
     }
-    
-    this.log.debug('handleLeakDetectedGet: ' + currentValue);
 
+    this.service.getCharacteristic(Characteristic.LeakDetected).updateValue(currentValue)
+    this.log.debug('Leak Sensor State: ' + currentValue);
+
+    return currentValue
+  }
+
+  async handleLeakSensorGetState(callback) {
+    // This function responds to Homekit requests for the current state of the Leak Sensor.    
+    const currentValue = await this.handleLeakSensorSetState()
     callback(null, currentValue)
   }
 
