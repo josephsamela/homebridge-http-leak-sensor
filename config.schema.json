@@ -1,15 +1,46 @@
 {
   "pluginAlias": "HomebridgeHTTPLeakSensor",
-  "pluginType": "platform",
+  "pluginType": "accessory",
   "singular": true,
   "schema": {
     "type": "object",
     "properties": {
       "name": {
-        "title": "Homebridge HTTP Leak Sensor",
+        "title": "Name",
         "type": "string",
         "required": true,
-        "default": "Example Dynamic Platform"
+        "default": "Leak Sensor"
+      },
+      "url": {
+        "title": "URL",
+        "type": "string",
+        "required": true,
+        "default": "http://localhost/status"
+      },
+      "pollInterval": {
+        "title": "Poll Interval",
+        "type": "number",
+        "required": true,
+        "default": 60,
+        "minimum": 1
+      },
+      "manufacturer": {
+        "title": "Manufacturer",
+        "type": "string",
+        "required": false,
+        "default": "Homebridge"
+      },
+      "model": {
+        "title": "Model",
+        "type": "string",
+        "required": false,
+        "default": "HTTP Leak Sensor"
+      },
+      "serialNumber": {
+        "title": "Serial Number",
+        "type": "string",
+        "required": false,
+        "default": "000000"
       }
     }
   }
