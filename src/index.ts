@@ -87,7 +87,7 @@ class LeakSensorAccessory {
         this.failedRequests = 0;
       } catch(e: unknown) {
         this.failedRequests += 1;
-        this.log.warn(`Unable to communicate with device. Failed request ${this.failedRequests}}/${this.failedRequestsLimit} ` + e);
+        this.log.warn(`Unable to communicate with device. Failed request ${this.failedRequests}/${this.failedRequestsLimit} ` + e);
       }
     }
   }
