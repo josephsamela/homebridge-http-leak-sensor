@@ -35,6 +35,7 @@ Leak sensors enabled with this plugin will appear in Homekit as sensors. You wil
         "name": "Leak Sensor",
         "url": "http://192.168.1.54/status",
         "pollInterval": 60,
+        "failedRequestsLimit": 100,
         "manufacturer": "Homebridge",
         "model": "Leak Sensor",
         "serialNumber": "ESP-32"
