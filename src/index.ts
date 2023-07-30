@@ -31,15 +31,15 @@ class LeakSensorAccessory {
     this.name = config.name || 'Leak Sensor';
     this.pollInterval = config.pollInterval || 60;
 
-    // This property sets the limit of failed requests that can be made to 
-    // url before the plugin stops making requests. Value of `0` allows 
+    // This property sets the limit of failed requests that can be made to
+    // url before the plugin stops making requests. Value of `0` allows
     // unlimited failed requests.
     this.failedRequestsLimit = config.failedRequestsLimit || 120;
-    
+
     // This property tracks the number of failed requests made to the sensor.
-    // when the number of failed requests exceeds the `failedRequestsLimit` the 
+    // when the number of failed requests exceeds the `failedRequestsLimit` the
     // plugin will stop requesting. If the device responds this is reset to 0.
-    this.failedRequests = 0
+    this.failedRequests = 0;
 
     this.manufacturer = config.manufacturer || 'Homebridge';
     this.model = config.model || 'Leak Sensor';
@@ -67,7 +67,7 @@ class LeakSensorAccessory {
   async handleLeakSensorSetState() {
     // This function runs on a regular interval to update the state of the sensor.
     // The interval is configured by the "pollInterval" config item.
-    if (this.failedRequestsLimit == 0 || this.failedRequests < this.failedRequestsLimit) {
+    if (this.failedRequestsLimit === 0 || this.failedRequests < this.failedRequestsLimit) {
       try {
         const response = await fetch(this.url);
         const data = await response.json();
@@ -85,8 +85,7 @@ class LeakSensorAccessory {
           this.log.warn('Sensor state: UNKNOWN "'+currentState+'"');
         }
         this.failedRequests = 0;
-      } 
-      catch(e: unknown) {
+      } catch(e: unknown) {
         this.failedRequests += 1;
         this.log.warn(`Unable to communicate with device. Failed request ${this.failedRequests}}/${this.failedRequestsLimit} ` + e);
       }
