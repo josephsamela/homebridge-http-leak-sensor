@@ -12,7 +12,7 @@
     "url": "https://github.com/josephsamela/homebridge-http-leak-sensor/issues"
   },
   "engines": {
-    "node": "^18.17.0",
+    "node": "^16.20.1 || ^18.17.0",
     "homebridge": "^1.6.0"
   },
   "main": "dist/index.js",
@@ -29,7 +29,7 @@
     "node-fetch": "2.6.7"
   },
   "devDependencies": {
-    "@types/node": "^18.16.20",
+    "@types/node": "^16.20.1 || ^18.17.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "eslint": "^8.45.0",
