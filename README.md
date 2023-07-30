@@ -8,6 +8,8 @@
 
 # Homebridge HTTP Leak Sensor
 
+[![verified-by-homebridge](https://badgen.net/badge/homebridge/verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins) [![npm](https://img.shields.io/npm/v/homebridge-http-leak-sensor.svg)](https://www.npmjs.com/package/homebridge-http-leak-sensor)
+
 </span>
 
 ## Description
