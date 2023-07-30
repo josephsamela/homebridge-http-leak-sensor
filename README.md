@@ -70,11 +70,11 @@ Your Leak Sensor API should be able to return JSON information when it receives 
 
 | State | Description |
 | ----- | --- |
-| `WET` | Device _is_ detecting a leak. |
-| `DRY` | Device _is not_ detecting a leak. |
+| `"WET"` | Device _is_ detecting a leak. |
+| `"DRY"` | Device _is not_ detecting a leak. |
 
 ## Sensors
 
-This plugin has a very is intended to communicate with very simple DIY leak sensors. To build your own Leak Sensor see sample code in the [/examples](/examples) folder.
+This plugin is intended to communicate with very simple DIY leak sensors. To build your own Leak Sensor see sample code in the [/examples](/examples) folder.
 
 ![](/images/diy-leak-sensor.jpg)
