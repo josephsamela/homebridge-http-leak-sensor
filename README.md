@@ -20,6 +20,8 @@ Leak sensors enabled with this plugin will appear in Homekit as sensors. You wil
 
 ![](images/ios-critical-alert.jpg)
 
+![](images/macos-critical-alert.jpg)
+
 ## Installation
 
 1. Install [homebridge](https://github.com/homebridge/homebridge#installation)
