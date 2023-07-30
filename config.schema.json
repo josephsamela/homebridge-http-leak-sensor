@@ -24,6 +24,13 @@
         "default": 60,
         "minimum": 1
       },
+      "failedRequestsLimit": {
+        "title": "Failed Requests Limit",
+        "type": "number",
+        "required": true,
+        "default": 120,
+        "minimum": 0
+      },
       "manufacturer": {
         "title": "Manufacturer",
         "type": "string",

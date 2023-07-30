@@ -53,6 +53,7 @@ Leak sensors enabled with this plugin will appear in Homekit as sensors. You wil
 | Key | Description | Default |
 | --- | --- | --- |
 | `pollInterval` | Time (in seconds) to check device status. | `60` |
+| `failedRequestsLimit` | Limit of failed requests that can be made to url before the plugin stops making requests. Value of `0` allows unlimited failed requests. | `120` |
 | `model` | Appears under the _Model_ field for the accessory | `"Leak Sensor"` |
 | `serial` | Appears under the _Serial_ field for the accessory | `"000000"` |
 | `manufacturer` | Appears under the _Manufacturer_ field for the accessory | `"Homebridge"` |
